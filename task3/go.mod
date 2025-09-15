@@ -1,4 +1,4 @@
-module github.com/numberwan0532/wanxzwork
+module github.com/numberwan0532/wanxzwork/task3
 
 go 1.25.1
 
