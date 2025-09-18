@@ -1,0 +1,232 @@
+//注册
+curl --location 'http://localhost:8080/user/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{"username":"admin","password":"123456","email":"23423423@qq.com"}'
+
+{
+    "code": 0,
+    "message": "success"
+}
+
+//登陆
+curl --location 'http://localhost:8080/user/login' \
+--header 'Content-Type: application/json' \
+--data '{"username":"admin","password":"123456"}'
+
+{
+    "code": 0,
+    "message": "success",
+    "data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTgyNjkxMDMsInVzZXJJRCI6NiwidXNlcm5hbWUiOiJhZG1pbiJ9.6oJ5gakdL4hH6k6dSh36Q7L5t0ArY99HUFsLIDkdGbE",
+        "username": "admin"
+    }
+}
+
+//新增文章
+curl --location 'http://localhost:8080/post/insertPost' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTgyNjkxMDMsInVzZXJJRCI6NiwidXNlcm5hbWUiOiJhZG1pbiJ9.6oJ5gakdL4hH6k6dSh36Q7L5t0ArY99HUFsLIDkdGbE' \
+--header 'Content-Type: application/json' \
+--data '{"title":"第一篇文章","content":"第一篇文章内容信息，测试新增文章"}'
+
+{
+    "code": 0,
+    "message": "success"
+}
+
+//获取所有文章列表
+curl --location 'http://localhost:8080/post/getAllPost' 
+
+{
+    "code": 0,
+    "message": "success",
+    "data": [
+        {
+            "ID": 1,
+            "CreatedAt": "2025-09-18T16:06:54.102+08:00",
+            "UpdatedAt": "2025-09-18T16:06:54.102+08:00",
+            "DeletedAt": null,
+            "Title": "第一篇文章",
+            "Content": "第一篇文章内容信息，测试新增文章",
+            "UserID": 6,
+            "User": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "Username": "",
+                "Password": "",
+                "Email": ""
+            }
+        },
+        {
+            "ID": 2,
+            "CreatedAt": "2025-09-18T16:08:57.314+08:00",
+            "UpdatedAt": "2025-09-18T16:08:57.314+08:00",
+            "DeletedAt": null,
+            "Title": "第二篇文章",
+            "Content": "第二篇文章内容信息，测试新增文章",
+            "UserID": 6,
+            "User": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "Username": "",
+                "Password": "",
+                "Email": ""
+            }
+        },
+        {
+            "ID": 3,
+            "CreatedAt": "2025-09-18T16:09:04.689+08:00",
+            "UpdatedAt": "2025-09-18T16:09:04.689+08:00",
+            "DeletedAt": null,
+            "Title": "第三篇文章",
+            "Content": "第三篇文章内容信息，测试新增文章",
+            "UserID": 6,
+            "User": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "Username": "",
+                "Password": "",
+                "Email": ""
+            }
+        }
+    ]
+}
+
+//获取单篇文章
+curl --location 'http://localhost:8080/post/getPostById/1' 
+
+{
+    "code": 0,
+    "message": "success",
+    "data": {
+        "ID": 1,
+        "CreatedAt": "2025-09-18T16:06:54.102+08:00",
+        "UpdatedAt": "2025-09-18T16:06:54.102+08:00",
+        "DeletedAt": null,
+        "Title": "第一篇文章",
+        "Content": "第一篇文章内容信息，测试新增文章",
+        "UserID": 6,
+        "User": {
+            "ID": 0,
+            "CreatedAt": "0001-01-01T00:00:00Z",
+            "UpdatedAt": "0001-01-01T00:00:00Z",
+            "DeletedAt": null,
+            "Username": "",
+            "Password": "",
+            "Email": ""
+        }
+    }
+}
+
+//更新文章
+curl --location --request PUT 'http://localhost:8080/post/updatePost' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTgyNjkxMDMsInVzZXJJRCI6NiwidXNlcm5hbWUiOiJhZG1pbiJ9.6oJ5gakdL4hH6k6dSh36Q7L5t0ArY99HUFsLIDkdGbE' \
+--header 'Content-Type: application/json' \
+--data '{"id":1,"content":"第一篇文章内容信息，修改文章内容进行更新"}'
+
+{
+    "code": 0,
+    "message": "success"
+}
+
+//删除文章
+curl --location --request DELETE 'http://localhost:8080/post/deletePostById/3' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTgyNjkxMDMsInVzZXJJRCI6NiwidXNlcm5hbWUiOiJhZG1pbiJ9.6oJ5gakdL4hH6k6dSh36Q7L5t0ArY99HUFsLIDkdGbE'
+
+{
+    "code": 0,
+    "message": "success"
+}
+
+//评论
+curl --location 'http://localhost:8080/comment/insertCommnet' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTgyNjkxMDMsInVzZXJJRCI6NiwidXNlcm5hbWUiOiJhZG1pbiJ9.6oJ5gakdL4hH6k6dSh36Q7L5t0ArY99HUFsLIDkdGbE' \
+--header 'Content-Type: application/json' \
+--data '{"postId":1,"content":"第一篇文章的第一条评论"}'
+
+//获取文章评论
+curl --location 'http://localhost:8080/comment/getCommnetByPostId/1'
+
+{
+    "code": 0,
+    "message": "success",
+    "data": [
+        {
+            "ID": 4,
+            "CreatedAt": "2025-09-18T16:19:01.105+08:00",
+            "UpdatedAt": "2025-09-18T16:19:01.105+08:00",
+            "DeletedAt": null,
+            "content": "第一篇文章的第一条评论",
+            "UserID": 6,
+            "User": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "Username": "",
+                "Password": "",
+                "Email": ""
+            },
+            "postId": 1,
+            "Post": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "Title": "",
+                "Content": "",
+                "UserID": 0,
+                "User": {
+                    "ID": 0,
+                    "CreatedAt": "0001-01-01T00:00:00Z",
+                    "UpdatedAt": "0001-01-01T00:00:00Z",
+                    "DeletedAt": null,
+                    "Username": "",
+                    "Password": "",
+                    "Email": ""
+                }
+            }
+        },
+        {
+            "ID": 5,
+            "CreatedAt": "2025-09-18T16:19:44.255+08:00",
+            "UpdatedAt": "2025-09-18T16:19:44.255+08:00",
+            "DeletedAt": null,
+            "content": "第一篇文章的第二条评论",
+            "UserID": 6,
+            "User": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "Username": "",
+                "Password": "",
+                "Email": ""
+            },
+            "postId": 1,
+            "Post": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "Title": "",
+                "Content": "",
+                "UserID": 0,
+                "User": {
+                    "ID": 0,
+                    "CreatedAt": "0001-01-01T00:00:00Z",
+                    "UpdatedAt": "0001-01-01T00:00:00Z",
+                    "DeletedAt": null,
+                    "Username": "",
+                    "Password": "",
+                    "Email": ""
+                }
+            }
+        }
+    ]
+}

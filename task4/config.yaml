@@ -1,0 +1,10 @@
+server:
+  port: 8080
+database:
+  user: root
+  password: 123456abc
+  host: 192.168.124.13
+  port: 3306
+  dbname: gorm
+  maxIdleConns: 10
+  maxOpenConns: 100
