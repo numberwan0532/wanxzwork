@@ -8,13 +8,18 @@ import (
 	"github.com/numberwan0532/wanxzwork/task4/pkg/globalerrors"
 )
 
-func RegistHandler(c *gin.Context) {
-	err := service.Register(c)
+type UserHandler struct {
+}
+
+var userServce service.UserService = service.UserService{}
+
+func (userHandler *UserHandler) RegistHandler(c *gin.Context) {
+	err := userServce.Register(c)
 	CommonReturn(c, nil, err)
 }
 
-func LoginHandler(c *gin.Context) {
-	data, err := service.Login(c)
+func (userHandler *UserHandler) LoginHandler(c *gin.Context) {
+	data, err := userServce.Login(c)
 	CommonReturn(c, data, err)
 }
 

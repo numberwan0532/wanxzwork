@@ -12,9 +12,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+type UserService struct {
+}
+
+var u model.User = model.User{}
+
 var secretKey string = os.Getenv("secretKey")
 
-func Register(c *gin.Context) error {
+func (userService *UserService) Register(c *gin.Context) error {
 	var user model.User
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
@@ -28,22 +33,22 @@ func Register(c *gin.Context) error {
 	}
 	user.Password = string(hashedPassword)
 
-	_, err1 := model.GetUserByUsername(user.Username)
+	_, err1 := u.GetUserByUsername(user.Username)
 	if err1 == nil {
 		return errors.New("该用户名已存在")
 	}
-	err2 := model.GetUserByEmail(user.Email)
+	err2 := u.GetUserByEmail(user.Email)
 	if err2 == nil {
 		return errors.New("该邮箱已存在")
 	}
-	return model.CreateUser(user)
+	return u.CreateUser(user)
 }
 
-func Login(c *gin.Context) (map[string]string, error) {
+func (userService *UserService) Login(c *gin.Context) (map[string]string, error) {
 	var marr = make(map[string]string)
 	var user model.User
 	c.ShouldBindJSON(&user)
-	userOld, err := model.GetUserByUsername(user.Username)
+	userOld, err := u.GetUserByUsername(user.Username)
 	if err != nil {
 		return marr, errors.New("该用户不存在")
 	}

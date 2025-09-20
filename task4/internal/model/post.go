@@ -13,27 +13,27 @@ type Post struct {
 	User    User
 }
 
-func CreatePost(post Post) error {
+func (p *Post) CreatePost(post Post) error {
 	return dao.DB.Create(&post).Error
 }
 
-func GetPostById(id string) (Post, error) {
+func (p *Post) GetPostById(id string) (Post, error) {
 	var post Post
 	if err := dao.DB.Debug().First(&post, "id = ?", id).Error; err != nil {
 		return post, err
 	}
 	return post, nil
 }
-func GetAllPost() []Post {
+func (p *Post) GetAllPost() []Post {
 	var posts []Post
 	dao.DB.Find(&posts)
 	return posts
 }
 
-func UpdatePost(post Post) error {
+func (p *Post) UpdatePost(post Post) error {
 	return dao.DB.Updates(post).Error
 }
 
-func DeletePostById(id string) error {
+func (p *Post) DeletePostById(id string) error {
 	return dao.DB.Delete(&Post{}, "id=?", id).Error
 }

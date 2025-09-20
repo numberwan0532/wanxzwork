@@ -5,27 +5,32 @@ import (
 	"github.com/numberwan0532/wanxzwork/task4/internal/service"
 )
 
-func InsertPostHandler(c *gin.Context) {
-	err := service.InsertPost(c)
+type PostHandler struct {
+}
+
+var postService service.PostService = service.PostService{}
+
+func (postHandler *PostHandler) InsertPostHandler(c *gin.Context) {
+	err := postService.InsertPost(c)
 	CommonReturn(c, nil, err)
 }
 
-func GetPostByIdHandler(c *gin.Context) {
-	data, err := service.GetPostById(c)
+func (postHandler *PostHandler) GetPostByIdHandler(c *gin.Context) {
+	data, err := postService.GetPostById(c)
 	CommonReturn(c, data, err)
 }
 
-func GetAllPostHandler(c *gin.Context) {
-	posts, err := service.GetAllPost(c)
+func (postHandler *PostHandler) GetAllPostHandler(c *gin.Context) {
+	posts, err := postService.GetAllPost(c)
 	CommonReturn(c, posts, err)
 }
 
-func UpdatePostHandler(c *gin.Context) {
-	err := service.UpdatePost(c)
+func (postHandler *PostHandler) UpdatePostHandler(c *gin.Context) {
+	err := postService.UpdatePost(c)
 	CommonReturn(c, nil, err)
 }
 
-func DeletePostByIdHandler(c *gin.Context) {
-	err := service.DeletePostById(c)
+func (postHandler *PostHandler) DeletePostByIdHandler(c *gin.Context) {
+	err := postService.DeletePostById(c)
 	CommonReturn(c, nil, err)
 }

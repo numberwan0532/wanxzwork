@@ -8,22 +8,27 @@ import (
 	"github.com/numberwan0532/wanxzwork/task4/internal/model"
 )
 
-func InsertCommnet(c *gin.Context) error {
+type CommentService struct {
+}
+
+var co model.Commnet = model.Commnet{}
+
+func (commentService *CommentService) InsertCommnet(c *gin.Context) error {
 	var comment model.Commnet
 	err := c.ShouldBindJSON(&comment)
 	if err != nil {
 		return err
 	}
 	comment.UserID = c.MustGet("userID").(uint)
-	if _, err := model.GetPostById(fmt.Sprintf("%d", comment.PostID)); err != nil {
+	if _, err := p.GetPostById(fmt.Sprintf("%d", comment.PostID)); err != nil {
 		return errors.New("文章不存在")
 	}
-	return model.CreateCommnet(comment)
+	return co.CreateCommnet(comment)
 }
 
-func GetCommentByPostId(c *gin.Context) ([]model.Commnet, error) {
+func (commentService *CommentService) GetCommentByPostId(c *gin.Context) ([]model.Commnet, error) {
 	id := c.Param("id")
-	commonts, err := model.GetCommentByPostId(id)
+	commonts, err := co.GetCommentByPostId(id)
 	if err != nil {
 		return commonts, err
 	}

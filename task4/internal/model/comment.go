@@ -14,11 +14,11 @@ type Commnet struct {
 	Post    Post
 }
 
-func CreateCommnet(commnet Commnet) error {
+func (c *Commnet) CreateCommnet(commnet Commnet) error {
 	return dao.DB.Create(&commnet).Error
 }
 
-func GetCommentByPostId(id string) ([]Commnet, error) {
+func (c *Commnet) GetCommentByPostId(id string) ([]Commnet, error) {
 	var commonts []Commnet
 	if err := dao.DB.Debug().Find(&commonts, "post_id = ?", id).Error; err != nil {
 		return commonts, err

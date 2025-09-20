@@ -8,7 +8,12 @@ import (
 	"github.com/numberwan0532/wanxzwork/task4/internal/model"
 )
 
-func InsertPost(c *gin.Context) error {
+type PostService struct {
+}
+
+var p model.Post = model.Post{}
+
+func (postService *PostService) InsertPost(c *gin.Context) error {
 	var post model.Post
 	err := c.ShouldBindJSON(&post)
 	if err != nil {
@@ -17,19 +22,19 @@ func InsertPost(c *gin.Context) error {
 	fmt.Println("post:", post)
 	post.UserID = c.MustGet("userID").(uint)
 	fmt.Println("post1:", post)
-	return model.CreatePost(post)
+	return p.CreatePost(post)
 }
 
-func GetPostById(c *gin.Context) (model.Post, error) {
+func (postService *PostService) GetPostById(c *gin.Context) (model.Post, error) {
 	id := c.Param("id")
-	return model.GetPostById(id)
+	return p.GetPostById(id)
 }
 
-func GetAllPost(c *gin.Context) ([]model.Post, error) {
-	return model.GetAllPost(), nil
+func (postService *PostService) GetAllPost(c *gin.Context) ([]model.Post, error) {
+	return p.GetAllPost(), nil
 }
 
-func UpdatePost(c *gin.Context) error {
+func (postService *PostService) UpdatePost(c *gin.Context) error {
 
 	var post model.Post
 	err := c.ShouldBindJSON(&post)
@@ -37,7 +42,7 @@ func UpdatePost(c *gin.Context) error {
 		return err
 	}
 	post.UserID = c.MustGet("userID").(uint)
-	data, err := model.GetPostById(fmt.Sprintf("%d", post.ID))
+	data, err := p.GetPostById(fmt.Sprintf("%d", post.ID))
 	if err != nil {
 		return err
 	}
@@ -46,17 +51,17 @@ func UpdatePost(c *gin.Context) error {
 	}
 	data.Content = post.Content
 	data.Title = post.Title
-	return model.UpdatePost(data)
+	return p.UpdatePost(data)
 }
 
-func DeletePostById(c *gin.Context) error {
+func (postService *PostService) DeletePostById(c *gin.Context) error {
 	id := c.Param("id")
-	data, err := model.GetPostById(id)
+	data, err := p.GetPostById(id)
 	if err != nil {
 		return err
 	}
 	if data.UserID != c.MustGet("userID").(uint) {
 		return errors.New("不允许删除别人的文章")
 	}
-	return model.DeletePostById(id)
+	return p.DeletePostById(id)
 }

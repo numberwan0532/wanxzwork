@@ -13,25 +13,29 @@ func Start(config *configs.Config, appLog *logrus.Logger) {
 	r.Use(middleware.LoggingMiddleware(appLog))
 	r.Use(middleware.ErrorMiddleware(appLog))
 
+	var userHandler handler.UserHandler = handler.UserHandler{}
+	var postHandler handler.PostHandler = handler.PostHandler{}
+	var commentHandler handler.CommentHandler = handler.CommentHandler{}
+
 	userGroup := r.Group("/user")
 	{
-		userGroup.POST("/register", handler.RegistHandler)
-		userGroup.POST("/login", handler.LoginHandler)
+		userGroup.POST("/register", userHandler.RegistHandler)
+		userGroup.POST("/login", userHandler.LoginHandler)
 	}
 
 	postGroup := r.Group("/post")
 	{
-		postGroup.POST("/insertPost", middleware.AuthMiddleware(), handler.InsertPostHandler)
-		postGroup.GET("/getPostById/:id", handler.GetPostByIdHandler)
-		postGroup.GET("/getAllPost", handler.GetAllPostHandler)
-		postGroup.PUT("/updatePost", middleware.AuthMiddleware(), handler.UpdatePostHandler)
-		postGroup.DELETE("/deletePostById/:id", middleware.AuthMiddleware(), handler.DeletePostByIdHandler)
+		postGroup.POST("/insertPost", middleware.AuthMiddleware(), postHandler.InsertPostHandler)
+		postGroup.GET("/getPostById/:id", postHandler.GetPostByIdHandler)
+		postGroup.GET("/getAllPost", postHandler.GetAllPostHandler)
+		postGroup.PUT("/updatePost", middleware.AuthMiddleware(), postHandler.UpdatePostHandler)
+		postGroup.DELETE("/deletePostById/:id", middleware.AuthMiddleware(), postHandler.DeletePostByIdHandler)
 	}
 
 	commentGroup := r.Group("/comment")
 	{
-		commentGroup.POST("/insertCommnet", middleware.AuthMiddleware(), handler.CreateCommnetHandler)
-		commentGroup.GET("/getCommnetByPostId/:id", handler.GetCommentByPostIdHandler)
+		commentGroup.POST("/insertCommnet", middleware.AuthMiddleware(), commentHandler.CreateCommnetHandler)
+		commentGroup.GET("/getCommnetByPostId/:id", commentHandler.GetCommentByPostIdHandler)
 	}
 
 	r.Run(":" + config.Server.Port)
